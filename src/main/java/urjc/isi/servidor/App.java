@@ -5,10 +5,14 @@ import static spark.Spark.*;
 //import spark.Response;
 import urjc.isi.servidor.App;
 
+
 //import java.sql.Connection;
 //import java.sql.DriverManager;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 //import java.sql.Statement;
 //import java.sql.PreparedStatement;
 import java.util.Random;
@@ -41,6 +45,8 @@ public class App
 			String result = "<form action='/"+random+  "' method='post'>"
 			+ "<fieldset>"
 			+ "<p>INTRODUZCA LOS DATOS:</p>\n"
+			+ "<p>Asignatura</p>\n"
+			+ "<input type='text' name='asignatura' required='true'>"
 			+ "<p>ID_Examen</p>\n"
 			+ "<input type='text' name='id_Examen' required='true'>"
 		    + "<input type=\"submit\" value=\"Comenzar examen\">"
@@ -80,6 +86,7 @@ public class App
 			String aux = path.substring(1,path.length());
 			//Añadido
 			int id_examen = Integer.parseInt(req.queryParams("id_Examen"));
+			String asignatura = req.queryParams("asignatura");
 			//-Añadido
 			String result ="<h1> El examen con ID "+id_examen+" se ha iniciado con el numero generado: "+ aux + "</h1>"
 			+ "<form action='/finalizar' method='post'>"		
@@ -87,7 +94,11 @@ public class App
 		    + "</form>";
 			
 			//Añadido
-			examen examenObject = new examen(id_examen, "fecha", "asig");
+			Date fecha = new Date();
+			long lnMilisegundos = fecha.getTime();
+			java.sql.Date sqlDate = new java.sql.Date(lnMilisegundos);
+			
+			examen examenObject = new examen(id_examen, sqlDate, asignatura);
 			examenDao.save(examenObject);
 			//-Añadido
 			

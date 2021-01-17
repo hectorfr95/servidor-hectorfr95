@@ -1,6 +1,8 @@
 package urjc.isi.servidor;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class realizaExamenDao {
 	
@@ -22,6 +24,28 @@ public class realizaExamenDao {
         }
     }
     
+    public List<realizaExamen> all() {
+
+        List<realizaExamen> allRealiza = new ArrayList<realizaExamen>();
+
+        try {
+            PreparedStatement ps = c.prepareStatement("select * from RealizaExamen");
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int idExamen = rs.getInt("idExamen");
+                String idAlumno = rs.getString("idAlumno");
+                String path = rs.getString("Path");
+                allRealiza.add(new realizaExamen(idExamen, idAlumno, path));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            return allRealiza;
+        }
+    }
 //    // Con este método vamos a obtener los idExamen de todos los examenes que haya realizado
 //    // el alumno con este id.
 //    public int ExamenesAlumno(String idAlumno) {
@@ -64,22 +88,22 @@ public class realizaExamenDao {
 //        }
 //    }
 //    
-    // Con este método obtenemos el Path, dado el idExamen 
-    public String pathCommits(int idExamen) {
-    	String Path = null;
+    // Con este método obtenemos el Path de todos los alumnos que han realizado este examen (idExamen)
+    public List<String> pathCommits(int idExamen) {
+    	List<String> Paths = new ArrayList<String>();
     	
         try {
-            PreparedStatement ps = c.prepareStatement("select * from RealizaExamen");
-            ResultSet rs = ps.executeQuery(String.valueOf(idExamen));
+            PreparedStatement ps = c.prepareStatement("select * from RealizaExamen where idExamen = " + idExamen);
+            ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                Path = rs.getString("Path");
+                Paths.add(rs.getString("Path"));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            return Path;
+            return Paths;
         }
     }
     
