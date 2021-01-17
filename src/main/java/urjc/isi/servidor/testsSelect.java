@@ -34,21 +34,21 @@ public class testsSelect {
         assertEquals(2, allAlumnos.size());
     }
 	
-	public void SelectAlumnos() {
-
-		alumno juanito = new alumno("1247567", "Juanito Garcia", 1234, "172.16.4.205");
-		alumno dani = new alumno("7654321", "Daniel Hernandez", 5678, "10.128.1.253");
-		alumnoDao dao = mock(alumnoDao.class);
-
-        List<alumno> results = Arrays.asList(juanito, dani);
-        when(dao.all()).thenReturn(results);
-
-        List<alumno> allAlumnos = dao.all();
-   
-        alumno alumno_1 =  dao.getAtributosAlumno("1234567");
-        assertEquals(alumno_1, allAlumnos.get(0));
-    }
-	
+//	public void SelectAlumnos() {
+//
+//		alumno juanito = new alumno("1247567", "Juanito Garcia", 1234, "172.16.4.205");
+//		alumno dani = new alumno("7654321", "Daniel Hernandez", 5678, "10.128.1.253");
+//		alumnoDao dao = mock(alumnoDao.class);
+//
+//        List<alumno> results = Arrays.asList(juanito, dani);
+//        when(dao.all()).thenReturn(results);
+//
+//        List<alumno> allAlumnos = dao.all();
+//   
+//        alumno alumno_1 =  dao.getAtributosAlumno("1234567");
+//        assertEquals(alumno_1, allAlumnos.get(0));
+//    }
+//	
 	
     public void AllExamenes() {
     	
